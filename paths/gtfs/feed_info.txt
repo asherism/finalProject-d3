@@ -1,0 +1,2 @@
+feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version
+Halifax Transit,http://www.halifax.ca/transit,en,20170220,20170528,Feb2017_v11_20170209
