@@ -230,7 +230,7 @@ function initMap() {
 function drawBuses() {
   d3.json("http://localhost:3000/get", function (error, data) {
     if (error) throw error;
-    console.log("initial data loaded...");
+    console.log("initial data loaded... " + data.length);
 
     let overlay = new google.maps.OverlayView();
 
@@ -246,31 +246,50 @@ function drawBuses() {
         let padding = 10;
 
         function transform(d) {
-          // console.log(d);
+          console.log("rendered new static nodes");
           d = new google.maps.LatLng(d.value.vehicle.position.latitude, d.value.vehicle.position.longitude);
           d = projection.fromLatLngToDivPixel(d);
           return d3.select(this)
             .style("left", (d.x - padding) + "px")
-            .style("top", (d.y - padding) + "px");
+            .style("top", (d.y - padding) + "px")
+            .text(function (d) { return d.key })
         }
 
+        function initialRender(d) {
+          console.log("initial render of nodes...");
+          d = new google.maps.LatLng(d.value.vehicle.position.latitude, d.value.vehicle.position.longitude);
+          d = projection.fromLatLngToDivPixel(d);
+          return d3.select(this)
+            .style("left", (d.x - padding) + "px")
+            .style("top", (d.y - padding) + "px")
+            .text(function (d) { return d.key })
+        }
+
+        // for ( let i = 0 ; i < data.length; i++) {
+        //   console.log(data[i])
+        // }
+
         function transformWithEase(d) {
-          //console.log(d);
+          console.log("animated existing nodes");
+          //console.log("animating " + d.key)
+          //console.log(d.key)
           d = new google.maps.LatLng(d.value.vehicle.position.latitude, d.value.vehicle.position.longitude);
           d = projection.fromLatLngToDivPixel(d);
           return d3.select(this)
             .transition().duration(800)
             .style("left", (d.x - padding) + "px")
-            .style("top", (d.y - padding) + "px");
+            .style("top", (d.y - padding) + "px")
+
         }
 
 
         let marker = layer.selectAll("svg")
           .data(d3.entries(data))
-          .each(transform) // update existing markers
+          //.each(transform) // update existing markers
           .enter().append("svg")
-          .each(transform)
-          .attr("class", "marker");
+          .each(initialRender)
+          .attr("class", "marker")
+        //.text(function(d){return d});
 
         // Add a circle.
         marker.append("circle")
@@ -294,30 +313,43 @@ function drawBuses() {
         //   layer.remove()
         // };
 
-        this.update = function (data) {
-          layer.selectAll("svg")
-            .data(d3.entries(data))
-            //.enter().append("svg")
-            //.attr("fill", "tomato");
-            //.enter()
-            .each(transform);
-
-          //layer.exit().remove();
-
-
-          //.enter().append("svg")
-          //.each(transform)
-
-          console.log("new data update..")
-        }
 
         function updateBuses() {
           d3.json("http://localhost:3000/get", function (error, data) {
             if (error) throw error;
-            //console.log(data);
-            console.log("number of bus nodes.. " + data.length)
+            console.log("-------------------------------------");
+            console.log("polling for new data.. " + data.length)
             overlay.update(data)
           })
+        }
+
+        this.update = function (data) {
+          let newLayer = d3.select(".stations").selectAll("svg");
+
+          newLayer
+            .data(d3.entries(data))
+            .each(transformWithEase) //ease transform existing nodes
+
+
+          //if you put exit.remove here, it will work but everything after won't
+          newLayer.data(d3.entries(data))
+            .enter() //stores new nodes
+            .append("svg") //render nodes before transform
+            .each(transform) //static transform
+            .attr("class", "marker").append("circle")
+            .attr("r", 4.5)
+            .attr("cx", padding)
+            .attr("cy", padding)
+            .style("fill", "tomato");
+
+
+
+          newLayer.data(d3.entries(data))
+            .exit().remove() //deleted the data check
+
+          //newLayer; //this removes the nodeds from the dom, freal
+
+          console.log("applying new bus nodes..")
         }
 
         setInterval(updateBuses, 6000)
