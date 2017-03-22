@@ -252,7 +252,7 @@ function drawBuses() {
           return d3.select(this)
             .style("left", (d.x - padding) + "px")
             .style("top", (d.y - padding) + "px")
-            .text(function (d) { return d.key })
+            .text(function (d) { return d.value.id })
         }
 
         function initialRender(d) {
@@ -262,7 +262,8 @@ function drawBuses() {
           return d3.select(this)
             .style("left", (d.x - padding) + "px")
             .style("top", (d.y - padding) + "px")
-            .text(function (d) { return d.key })
+            // .text(function (d) { return d.key })
+            .text(function (d) { return d.value.id })
         }
 
         // for ( let i = 0 ; i < data.length; i++) {
@@ -270,21 +271,33 @@ function drawBuses() {
         // }
 
         function transformWithEase(d) {
-          console.log("animated existing nodes");
+          //console.log("animated existing nodes");
           //console.log("animating " + d.key)
-          //console.log(d.key)
+          //console.log("animating node no. " + d.key + " --> " + d.value.vehicle.position.latitude, d.value.vehicle.position.longitude)
+
+          //console.log(d)
+
+          // for (let i = 0; i < data.length; i++) if (d.value.id == layer.selectAll("svg").)
+
+
           d = new google.maps.LatLng(d.value.vehicle.position.latitude, d.value.vehicle.position.longitude);
           d = projection.fromLatLngToDivPixel(d);
+
+
           return d3.select(this)
-            .transition().duration(800)
+            .transition().duration(500)
             .style("left", (d.x - padding) + "px")
             .style("top", (d.y - padding) + "px")
+
+
 
         }
 
 
+
+
         let marker = layer.selectAll("svg")
-          .data(d3.entries(data))
+          .data(d3.entries(data), function (d) { return d.id; })
           //.each(transform) // update existing markers
           .enter().append("svg")
           .each(initialRender)
@@ -319,6 +332,7 @@ function drawBuses() {
             if (error) throw error;
             console.log("-------------------------------------");
             console.log("polling for new data.. " + data.length)
+            //console.log(data)
             overlay.update(data)
           })
         }
@@ -326,13 +340,44 @@ function drawBuses() {
         this.update = function (data) {
           let newLayer = d3.select(".stations").selectAll("svg");
 
-          newLayer
-            .data(d3.entries(data))
-            .each(transformWithEase) //ease transform existing nodes
+          // for (i = 0; i < newLayer._parents[0].children.length; i++) {
+          //   console.log(newLayer._parents[0].children[i].textContent);
+          //   console.log(data[i].id)
+          // }
+
+          for (i = 0; i < data.length; i++) {
+            for (j = 0; j < newLayer._parents[0].children.length; j++) {
+              if (data[i].id == newLayer._parents[0].children[j].textContent) {
+                //console.log("found a match" + i)
+                // console.log(data[i].vehicle.position)
+                d = data[i];
+                k = newLayer._parents[0].children[j];
+                d = new google.maps.LatLng(d.vehicle.position.latitude, d.vehicle.position.longitude);
+                d = projection.fromLatLngToDivPixel(d);
 
 
-          //if you put exit.remove here, it will work but everything after won't
-          newLayer.data(d3.entries(data))
+                d3.select(k)
+                  .transition().duration(500)
+                  .style("left", (d.x - padding) + "px")
+                  .style("top", (d.y - padding) + "px")
+
+              } //else {
+              //let newBusNodesArray = [];
+              //newBusNodesArray.push(data[i]);
+              //}
+              //console.log(newBusNodesArray)
+            }
+            //console.log(newLayer._parents[0].children[i].textContent);
+            //console.log(data[i].id)
+          }
+          // newLayer //this animates the existing nodes
+          //   .data(d3.entries(data))
+          //   .each(transformWithEase) //ease transform existing nodes
+
+
+
+
+          newLayer.data(d3.entries(data)) //this adds new nodes to the dom
             .enter() //stores new nodes
             .append("svg") //render nodes before transform
             .each(transform) //static transform
@@ -344,10 +389,11 @@ function drawBuses() {
 
 
 
-          newLayer.data(d3.entries(data))
-            .exit().remove() //deleted the data check
+          newLayer.data(d3.entries(data)) //this removes dead nodes from the dom
+            .exit().remove()
+          //.style("fill", "royalblue");
 
-          //newLayer; //this removes the nodeds from the dom, freal
+
 
           console.log("applying new bus nodes..")
         }
