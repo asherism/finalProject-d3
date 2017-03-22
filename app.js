@@ -247,23 +247,23 @@ function drawBuses() {
 
         function transform(d) {
           console.log("rendered new static nodes");
-          d = new google.maps.LatLng(d.value.vehicle.position.latitude, d.value.vehicle.position.longitude);
+          d = new google.maps.LatLng(d.vehicle.position.latitude, d.vehicle.position.longitude);
           d = projection.fromLatLngToDivPixel(d);
           return d3.select(this)
             .style("left", (d.x - padding) + "px")
             .style("top", (d.y - padding) + "px")
-            .text(function (d) { return d.value.id })
+            .text(function (d) { return d.id })
         }
 
         function initialRender(d) {
           console.log("initial render of nodes...");
-          d = new google.maps.LatLng(d.value.vehicle.position.latitude, d.value.vehicle.position.longitude);
+          d = new google.maps.LatLng(d.vehicle.position.latitude, d.vehicle.position.longitude);
           d = projection.fromLatLngToDivPixel(d);
           return d3.select(this)
             .style("left", (d.x - padding) + "px")
             .style("top", (d.y - padding) + "px")
             // .text(function (d) { return d.key })
-            .text(function (d) { return d.value.id })
+            .text(function (d) { return d.id })
         }
 
         // for ( let i = 0 ; i < data.length; i++) {
@@ -280,7 +280,7 @@ function drawBuses() {
           // for (let i = 0; i < data.length; i++) if (d.value.id == layer.selectAll("svg").)
 
 
-          d = new google.maps.LatLng(d.value.vehicle.position.latitude, d.value.vehicle.position.longitude);
+          d = new google.maps.LatLng(d.vehicle.position.latitude, d.vehicle.position.longitude);
           d = projection.fromLatLngToDivPixel(d);
 
 
@@ -297,11 +297,12 @@ function drawBuses() {
 
 
         let marker = layer.selectAll("svg")
-          .data(d3.entries(data), function (d) { return d.id; })
+          .data(data, function (d) { console.log( d) })
           //.each(transform) // update existing markers
           .enter().append("svg")
           .each(initialRender)
           .attr("class", "marker")
+          //.text)
         //.text(function(d){return d});
 
         // Add a circle.
@@ -345,39 +346,40 @@ function drawBuses() {
           //   console.log(data[i].id)
           // }
 
-          for (i = 0; i < data.length; i++) {
-            for (j = 0; j < newLayer._parents[0].children.length; j++) {
-              if (data[i].id == newLayer._parents[0].children[j].textContent) {
-                //console.log("found a match" + i)
-                // console.log(data[i].vehicle.position)
-                d = data[i];
-                k = newLayer._parents[0].children[j];
-                d = new google.maps.LatLng(d.vehicle.position.latitude, d.vehicle.position.longitude);
-                d = projection.fromLatLngToDivPixel(d);
+          // for (i = 0; i < data.length; i++) {
+          //   for (j = 0; j < newLayer._parents[0].children.length; j++) {
+          //     if (data[i].id == newLayer._parents[0].children[j].textContent) {
+          //       //console.log("found a match" + i)
+          //       // console.log(data[i].vehicle.position)
+          //       d = data[i];
+          //       k = newLayer._parents[0].children[j];
+          //       d = new google.maps.LatLng(d.vehicle.position.latitude, d.vehicle.position.longitude);
+          //       d = projection.fromLatLngToDivPixel(d);
 
 
-                d3.select(k)
-                  .transition().duration(500)
-                  .style("left", (d.x - padding) + "px")
-                  .style("top", (d.y - padding) + "px")
+          //       d3.select(k)
+          //         .transition().duration(500)
+          //         .style("left", (d.x - padding) + "px")
+          //         .style("top", (d.y - padding) + "px")
 
-              } //else {
-              //let newBusNodesArray = [];
-              //newBusNodesArray.push(data[i]);
-              //}
-              //console.log(newBusNodesArray)
-            }
-            //console.log(newLayer._parents[0].children[i].textContent);
-            //console.log(data[i].id)
-          }
-          // newLayer //this animates the existing nodes
-          //   .data(d3.entries(data))
-          //   .each(transformWithEase) //ease transform existing nodes
+          //     } //else {
+          //     //let newBusNodesArray = [];
+          //     //newBusNodesArray.push(data[i]);
+          //     //}
+          //     //console.log(newBusNodesArray)
+          //   }
+          //   //console.log(newLayer._parents[0].children[i].textContent);
+          //   //console.log(data[i].id)
+          // }
+
+          newLayer //this animates the existing nodes
+            .data(data, function(d){return d.id})
+            .each(transformWithEase) //ease transform existing nodes
 
 
 
 
-          newLayer.data(d3.entries(data)) //this adds new nodes to the dom
+          newLayer.data(data, function(d){return d.id}) //this adds new nodes to the dom
             .enter() //stores new nodes
             .append("svg") //render nodes before transform
             .each(transform) //static transform
@@ -389,7 +391,7 @@ function drawBuses() {
 
 
 
-          newLayer.data(d3.entries(data)) //this removes dead nodes from the dom
+          newLayer.data(data, function(d){return d.id}) //this removes dead nodes from the dom
             .exit().remove()
           //.style("fill", "royalblue");
 
