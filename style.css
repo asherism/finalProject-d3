@@ -3,6 +3,8 @@
         width: 100vw;
         margin: 0;
         padding: 0;
+        -webkit-font-smoothing: antialiased;
+
       }
 
 #map {
@@ -17,13 +19,30 @@ body #map div .gm-style div a div img {
   display: none;
 }
 
-.logo {
+
+#info {
   position: absolute;
-    z-index: 1;
-    bottom: 12px;
-    left: 15px;
-    width: 170px;
+  z-index: 1;
+  color: lime;
+  font-family: Hack;
+  left: 20px;
+  font-size: 13px;
 }
+
+.logo{
+  position: absolute;
+  z-index: 1;
+  bottom: 12px;
+  left: 15px;
+  width: 250px;
+  color: white;
+  font-size: 16px;
+  font-family: Apercu-Mono;
+  padding: 0px;
+  margin: 0px;
+
+}
+
 
 
 

@@ -226,33 +226,33 @@ function initMap() {
   });
 
 
-  // map.data.loadGeoJson('./paths/paths.geojson');
-  // map.data.setStyle({
-  //   strokeColor: 'royalblue',
-  //   strokeWeight: 3.5,
-  //   strokeOpacity: 0.2,
-  // });
+  map.data.loadGeoJson('./paths/paths.geojson');  //GeoJSON via googlemaps
+  map.data.setStyle({
+    strokeColor: '#2d3d6d',
+    strokeWeight: 3.5,
+    strokeOpacity: 0.1,
+  });
 
-  // map.data.addListener('mouseover', function (event) {
-  //   map.data.revertStyle();
-  //   map.data.setStyle({ strokeOpacity: 0.1, strokeWeight: 0 });
-  //   map.data.overrideStyle(event.feature, { strokeColor: 'tomato', strokeOpacity: 1, strokeWeight: 6, zIndex: 1000 });
-  //   // map.data.overrideStyle(event.feature, {})
-  //   //map.data.overrideStyle(event.feature, { strokeWeight: 8 });
-  // });
+  map.data.addListener('mouseover', function (event) {
+    map.data.revertStyle();
+    map.data.setStyle({ strokeOpacity: 0.1, strokeWeight: 0 });
+    map.data.overrideStyle(event.feature, { strokeColor: 'tomato', strokeOpacity: 1, strokeWeight: 6, zIndex: 1000 });
+    // map.data.overrideStyle(event.feature, {})
+    //map.data.overrideStyle(event.feature, { strokeWeight: 8 });
+  });
 
-  // map.data.addListener('mouseout', function (event) {
-  //   map.data.revertStyle();
-  //   map.data.setStyle({
-  //     strokeColor: 'royalblue',
-  //     strokeWeight: 3,
-  //     strokeOpacity: 0.5
-  //   })
-  // })
+  map.data.addListener('mouseout', function (event) {
+    map.data.revertStyle();
+    map.data.setStyle({
+      strokeColor: '#2d3d6d',
+      strokeWeight: 3.5,
+      strokeOpacity: 0.1
+    })
+  })
 
 
-  // let transitLayer = new google.maps.TransitLayer();
-  // transitLayer.setMap(map);
+  let transitLayer = new google.maps.TransitLayer();
+  transitLayer.setMap(map);
 };
 
 
@@ -299,53 +299,34 @@ function drawBuses() {
             .text(function (d) { return d.id })
         }
 
-        // for ( let i = 0 ; i < data.length; i++) {
-        //   console.log(data[i])
-        // }
-
         function transformWithEase(d) {
-          //console.log("animated existing nodes");
-          //console.log("animating " + d.key)
-          //console.log("animating node no. " + d.key + " --> " + d.value.vehicle.position.latitude, d.value.vehicle.position.longitude)
-
-          //console.log(d)
-
-          // for (let i = 0; i < data.length; i++) if (d.value.id == layer.selectAll("svg").)
-
-
           d = new google.maps.LatLng(d.vehicle.position.latitude, d.vehicle.position.longitude);
           d = projection.fromLatLngToDivPixel(d);
 
-
           return d3.select(this)
-            .transition().duration(500)
+            .transition().duration(2500)
             .style("left", (d.x - padding) + "px")
             .style("top", (d.y - padding) + "px")
-
-
-
-        }
-
-
-
+        };
 
         let marker = layer.selectAll("svg")
-          .data(data, function (d) { console.log(d) })
-          //.each(transform) // update existing markers
+          //.data(data, function (d) { console.log(d) }) //this was working for some reason????
+          .data(data, function (d) { return d.id; })
           .enter().append("svg")
-          .each(initialRender)
+          .each(initialRender) //initial rendering of bus nodes
           .attr("class", "marker")
-        //.text)
-        //.text(function(d){return d});
 
         // Add a circle.
         marker.append("circle")
-          .attr("r", 4.5)
+          //.attr("opacity", 0)
+          .attr("r", 4)
           .attr("cx", padding)
           .attr("cy", padding)
-        //.attr("id", function (data) { return data.value.id });
+          .attr("opacity", 0.7);
 
-        //console.log(data.value.id)
+        // marker.transition()
+        //   .duration(1250)
+        //   .attr("opacity", 1);
 
         //Add a label.
         // marker.append("text")
@@ -356,43 +337,34 @@ function drawBuses() {
         //   .text(function (data) { return data.value.id; });
 
 
-        // overlay.onRemove = function () {
-        //   layer.remove()
-        // };
+
+        //Load in GeoJSON data vid d3 - WIP
+
+        // let svg = d3.select("body").append("svg")
+
+        // d3.json("./paths/paths.geojson", function (data) {
+
+        //   console.log(data);
+
+        //   var projection = d3.geoAlbersUsa()
+        //     .scale(1)
+        //     .translate([0, 0]);
 
 
-        //Create SVG element
-
-        //let path = d3.geo.path();
-
-        //Load in GeoJSON data
-
-        let svg = d3.select("body").append("svg")
-
-        d3.json("./paths/paths.geojson", function (data) {
-
-          console.log(data);
-
-          var projection = d3.geoAlbersUsa()
-            .scale(1)
-            .translate([0, 0]);
-
-
-          svg.append("path")
-            .datum({ type: "FeatureCollection", features: data.features })
-            .attr("d", d3.geoPath(data).projection(projection))
-            .enter()
-            .append("path")
-            //.style("fill", "red")
-            .style("stroke-width", "1")
-            .style("stroke", "blue")
-          // svg.selectAll("path")
-          //   .data(json.features)
-          //   .enter()
-          //   .append("path")
-          //   .attr("d", path)
-          //   .attr("fill", "#666666");
-        })
+        //   svg.append("path")
+        //     .datum({ type: "FeatureCollection", features: data.features })
+        //     .attr("d", d3.geoPath(data).projection(projection))
+        //     .enter()
+        //     .append("path")
+        //     .style("stroke-width", "1")
+        //     .style("stroke", "blue")
+        // svg.selectAll("path")
+        //   .data(json.features)
+        //   .enter()
+        //   .append("path")
+        //   .attr("d", path)
+        //   .attr("fill", "#666666");
+        //})
 
 
         function updateBuses() {
@@ -402,8 +374,15 @@ function drawBuses() {
             console.log("polling for new data.. " + data.length)
             //console.log(data)
             overlay.update(data)
+
+            function info(data) {
+              let d = data.length;
+              document.getElementById("numOfNodes").innerHTML = d;
+              //document.getElementById("numOfNodes").innerHTML = d.toLocaleTimeString();
+            }
           })
         }
+
 
         this.update = function (data) {
           let newLayer = d3.select(".stations").selectAll("svg");
@@ -423,7 +402,6 @@ function drawBuses() {
           //       d = new google.maps.LatLng(d.vehicle.position.latitude, d.vehicle.position.longitude);
           //       d = projection.fromLatLngToDivPixel(d);
 
-
           //       d3.select(k)
           //         .transition().duration(500)
           //         .style("left", (d.x - padding) + "px")
@@ -437,38 +415,32 @@ function drawBuses() {
           //   }
           //   //console.log(newLayer._parents[0].children[i].textContent);
           //   //console.log(data[i].id)
-          // }
+
+          // } ***this chunk of code is now unnecessary with the data key working*** ¯\_(ツ)_/¯ 
 
           newLayer //this animates the existing nodes
-            .data(data, function (d) { return d.id })
-            .each(transformWithEase) //ease transform existing nodes
+            .data(data, function (d) { return d.id }) // pass in data key
+            .each(transformWithEase); //ease transform existing nodes
 
-
-
-
-          newLayer.data(data, function (d) { return d.id }) //this adds new nodes to the dom
+          newLayer //this adds new nodes to the dom
+            .data(data, function (d) { return d.id }) //pass in data key
             .enter() //stores new nodes
             .append("svg") //render nodes before transform
             .each(transform) //static transform
             .attr("class", "marker").append("circle")
-            .attr("r", 4.5)
+            .attr("r", 4)
             .attr("cx", padding)
             .attr("cy", padding)
-            .style("fill", "tomato");
-
-
+            .style("fill", "royalblue") //add new color for new nodes
+            .attr("opacity", 0.9)
 
           newLayer.data(data, function (d) { return d.id }) //this removes dead nodes from the dom
-            .exit().remove()
-          //.style("fill", "royalblue");
-
-
+            .exit().remove();
 
           console.log("applying new bus nodes..")
         }
 
-        setInterval(updateBuses, 6000)
-
+        setInterval(updateBuses, 6000) //set up polling for new data
       };
     };
 
