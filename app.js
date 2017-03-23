@@ -222,8 +222,41 @@ function initMap() {
     streetViewControl: false,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     styles: mapStyle
+
   });
+
+
+  // map.data.loadGeoJson('./paths/paths.geojson');
+  // map.data.setStyle({
+  //   strokeColor: 'royalblue',
+  //   strokeWeight: 3.5,
+  //   strokeOpacity: 0.2,
+  // });
+
+  // map.data.addListener('mouseover', function (event) {
+  //   map.data.revertStyle();
+  //   map.data.setStyle({ strokeOpacity: 0.1, strokeWeight: 0 });
+  //   map.data.overrideStyle(event.feature, { strokeColor: 'tomato', strokeOpacity: 1, strokeWeight: 6, zIndex: 1000 });
+  //   // map.data.overrideStyle(event.feature, {})
+  //   //map.data.overrideStyle(event.feature, { strokeWeight: 8 });
+  // });
+
+  // map.data.addListener('mouseout', function (event) {
+  //   map.data.revertStyle();
+  //   map.data.setStyle({
+  //     strokeColor: 'royalblue',
+  //     strokeWeight: 3,
+  //     strokeOpacity: 0.5
+  //   })
+  // })
+
+
+  // let transitLayer = new google.maps.TransitLayer();
+  // transitLayer.setMap(map);
 };
+
+
+
 
 
 
@@ -297,12 +330,12 @@ function drawBuses() {
 
 
         let marker = layer.selectAll("svg")
-          .data(data, function (d) { console.log( d) })
+          .data(data, function (d) { console.log(d) })
           //.each(transform) // update existing markers
           .enter().append("svg")
           .each(initialRender)
           .attr("class", "marker")
-          //.text)
+        //.text)
         //.text(function(d){return d});
 
         // Add a circle.
@@ -326,6 +359,40 @@ function drawBuses() {
         // overlay.onRemove = function () {
         //   layer.remove()
         // };
+
+
+        //Create SVG element
+
+        //let path = d3.geo.path();
+
+        //Load in GeoJSON data
+
+        let svg = d3.select("body").append("svg")
+
+        d3.json("./paths/paths.geojson", function (data) {
+
+          console.log(data);
+
+          var projection = d3.geoAlbersUsa()
+            .scale(1)
+            .translate([0, 0]);
+
+
+          svg.append("path")
+            .datum({ type: "FeatureCollection", features: data.features })
+            .attr("d", d3.geoPath(data).projection(projection))
+            .enter()
+            .append("path")
+            //.style("fill", "red")
+            .style("stroke-width", "1")
+            .style("stroke", "blue")
+          // svg.selectAll("path")
+          //   .data(json.features)
+          //   .enter()
+          //   .append("path")
+          //   .attr("d", path)
+          //   .attr("fill", "#666666");
+        })
 
 
         function updateBuses() {
@@ -373,13 +440,13 @@ function drawBuses() {
           // }
 
           newLayer //this animates the existing nodes
-            .data(data, function(d){return d.id})
+            .data(data, function (d) { return d.id })
             .each(transformWithEase) //ease transform existing nodes
 
 
 
 
-          newLayer.data(data, function(d){return d.id}) //this adds new nodes to the dom
+          newLayer.data(data, function (d) { return d.id }) //this adds new nodes to the dom
             .enter() //stores new nodes
             .append("svg") //render nodes before transform
             .each(transform) //static transform
@@ -391,7 +458,7 @@ function drawBuses() {
 
 
 
-          newLayer.data(data, function(d){return d.id}) //this removes dead nodes from the dom
+          newLayer.data(data, function (d) { return d.id }) //this removes dead nodes from the dom
             .exit().remove()
           //.style("fill", "royalblue");
 

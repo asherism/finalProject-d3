@@ -13,6 +13,18 @@
     display: none
 }
 
+body #map div .gm-style div a div img {
+  display: none;
+}
+
+.logo {
+  position: absolute;
+    z-index: 1;
+    bottom: 12px;
+    left: 15px;
+    width: 170px;
+}
+
 
 
 
