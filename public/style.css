@@ -25,16 +25,16 @@ body #map div .gm-style div a div img {
   z-index: 1;
   color: lime;
   font-family: Hack;
-  left: 20px;
-  top: 15px;
-  font-size: 13px;
+  left: 10px;
+  bottom: 14px;
+  font-size: 12px;
 }
 
 .logo{
   position: absolute;
   z-index: 1;
-  bottom: 12px;
-  left: 15px;
+  top: 20px;
+  left: 18px;
   width: 250px;
   color: white;
   font-size: 16px;
@@ -48,6 +48,8 @@ body #map div .gm-style div a div img {
       display: inline;
     margin: 0px;
     padding: 0px;
+    position: relative;
+    top: -4px;
 }
 
 #info img {

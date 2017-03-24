@@ -328,7 +328,7 @@ function drawBuses() {
           .attr("r", 4)
           .attr("cx", padding)
           .attr("cy", padding)
-          .attr("opacity", 0.7);
+          .attr("opacity", 1);
 
         // marker.transition()
         //   .duration(1250)
@@ -438,7 +438,7 @@ function drawBuses() {
             .attr("cx", padding)
             .attr("cy", padding)
             .style("fill", "tomato") //add new color for new nodes
-            .attr("opacity", 0.9)
+            .attr("opacity", 1)
 
           newLayer.data(data, function (d) { return d.id }) //this removes dead nodes from the dom
             .exit().remove();
