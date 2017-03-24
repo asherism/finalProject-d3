@@ -220,7 +220,7 @@ let mapStyle = [
 
 
 
-window.initMap = function()  {
+function initMap()  {
   map = new google.maps.Map(d3.select("#map").node(), {
     center: { lat: 44.6487027, lng: -63.6008893 },
     zoom: 14,
