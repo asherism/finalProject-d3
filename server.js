@@ -1,3 +1,4 @@
+"use strict";
 const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
 const request = require('request');
 const bodyParser = require('body-parser');
@@ -50,7 +51,7 @@ app.get('/get', (req, res) => {
 
 
 
-app.listen(3000, () => {
+app.listen(9000, () => {
     console.log('Server Started on http://localhost:%s', 3000);
     console.log('Press CTRL + C to stop server');
 });

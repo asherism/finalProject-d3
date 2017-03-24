@@ -1,3 +1,5 @@
+"use strict";
+
 let map;
 let mapStyle = [
   {
@@ -265,7 +267,7 @@ function initMap() {
 
 
 function drawBuses() {
-  d3.json("http://localhost:3000/get", function (error, data) {
+  d3.json("http://localhost:9000/get", function (error, data) {
     if (error) throw error;
     console.log("initial data loaded... " + data.length);
 
@@ -372,7 +374,7 @@ function drawBuses() {
 
 
         function updateBuses() {
-          d3.json("http://localhost:3000/get", function (error, data) {
+          d3.json("http://localhost:9000/get", function (error, data) {
             if (error) throw error;
             console.log("-------------------------------------");
             console.log("polling for new data.. " + data.length)
