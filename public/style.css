@@ -9,7 +9,7 @@
 
   @font-face {
   font-family: 'Apercu-Mono';
-  src: url('apercu-mono-webfont.woff') format('woff');
+  src: url('./fonts/apercu-mono-webfont.woff') format('woff');
   font-style: normal;
   font-weight: normal;
   text-rendering: optimizeLegibility;
