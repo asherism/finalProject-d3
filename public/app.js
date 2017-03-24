@@ -242,7 +242,7 @@ function initMap()  {
   map.data.addListener('mouseover', function (event) {
     map.data.revertStyle();
     map.data.setStyle({ strokeOpacity: 0.1, strokeWeight: 0 });
-    map.data.overrideStyle(event.feature, { strokeColor: 'tomato', strokeOpacity: 1, strokeWeight: 6, zIndex: 1000 });
+    map.data.overrideStyle(event.feature, { strokeColor: 'royalblue', strokeOpacity: 1, strokeWeight: 6, zIndex: 1000 });
     // map.data.overrideStyle(event.feature, {})
     //map.data.overrideStyle(event.feature, { strokeWeight: 8 });
   });
@@ -310,7 +310,7 @@ function drawBuses() {
           d = projection.fromLatLngToDivPixel(d);
 
           return d3.select(this)
-            .transition().duration(2500)
+            .transition().duration(1000)
             .style("left", (d.x - padding) + "px")
             .style("top", (d.y - padding) + "px")
         };
@@ -437,7 +437,7 @@ function drawBuses() {
             .attr("r", 4)
             .attr("cx", padding)
             .attr("cy", padding)
-            .style("fill", "royalblue") //add new color for new nodes
+            .style("fill", "tomato") //add new color for new nodes
             .attr("opacity", 0.9)
 
           newLayer.data(data, function (d) { return d.id }) //this removes dead nodes from the dom

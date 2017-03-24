@@ -26,6 +26,7 @@ body #map div .gm-style div a div img {
   color: lime;
   font-family: Hack;
   left: 20px;
+  top: 15px;
   font-size: 13px;
 }
 
@@ -43,6 +44,15 @@ body #map div .gm-style div a div img {
 
 }
 
+#numOfNodes {
+      display: inline;
+    margin: 0px;
+    padding: 0px;
+}
+
+#info img {
+  width: 20px;
+}
 
 
 
