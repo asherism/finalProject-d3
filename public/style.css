@@ -1,18 +1,26 @@
  html, body {
-        min-height: 100vh;
-        width: 100vw;
-        margin: 0;
-        padding: 0;
-        -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  }
 
-      }
+  @font-face {
+  font-family: 'Apercu-Mono';
+  src: url('apercu-mono-webfont.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
+  }
 
 #map {
-    height: 100vh;
+  height: 100vh;
 }
 
 .gm-style-cc, .gmnoprint.gm-style-cc  {
-    display: none
+  display: none
 }
 
 body #map div .gm-style div a div img {
@@ -45,11 +53,11 @@ body #map div .gm-style div a div img {
 }
 
 #numOfNodes {
-      display: inline;
-    margin: 0px;
-    padding: 0px;
-    position: relative;
-    top: -4px;
+  display: inline;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+  top: -4px;
 }
 
 #info img {
@@ -82,5 +90,5 @@ body #map div .gm-style div a div img {
 }
 
 .marker2 {
-    fill: white;
+  fill: white;
 }
