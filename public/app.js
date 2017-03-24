@@ -234,7 +234,7 @@ function initMap()  {
 
   map.data.loadGeoJson('./paths/paths.geojson');  //GeoJSON via googlemaps
   map.data.setStyle({
-    strokeColor: '#2d3d6d',
+    strokeColor: 'mediumblue',
     strokeWeight: 3.5,
     strokeOpacity: 0.1,
   });
@@ -242,7 +242,7 @@ function initMap()  {
   map.data.addListener('mouseover', function (event) {
     map.data.revertStyle();
     map.data.setStyle({ strokeOpacity: 0.1, strokeWeight: 0 });
-    map.data.overrideStyle(event.feature, { strokeColor: 'royalblue', strokeOpacity: 1, strokeWeight: 6, zIndex: 1000 });
+    map.data.overrideStyle(event.feature, { strokeColor: 'blue', strokeOpacity: 1, strokeWeight: 6, zIndex: 1000 });
     // map.data.overrideStyle(event.feature, {})
     //map.data.overrideStyle(event.feature, { strokeWeight: 8 });
   });
@@ -250,7 +250,8 @@ function initMap()  {
   map.data.addListener('mouseout', function (event) {
     map.data.revertStyle();
     map.data.setStyle({
-      strokeColor: '#2d3d6d',
+      //strokeColor: '#2d3d6d',
+      strokeColor: 'mediumblue',
       strokeWeight: 3.5,
       strokeOpacity: 0.1
     })
