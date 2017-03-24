@@ -235,7 +235,7 @@ function initMap()  {
   map.data.loadGeoJson('./paths/paths.geojson');  //GeoJSON via googlemaps
   map.data.setStyle({
     strokeColor: 'mediumblue',
-    strokeWeight: 3.5,
+    strokeWeight: 3,
     strokeOpacity: 0.1,
   });
 
@@ -252,8 +252,8 @@ function initMap()  {
     map.data.setStyle({
       //strokeColor: '#2d3d6d',
       strokeColor: 'mediumblue',
-      strokeWeight: 3.5,
-      strokeOpacity: 0.1
+      strokeWeight: 3,
+      strokeOpacity: 0.1,
     })
   })
 
