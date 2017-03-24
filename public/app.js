@@ -220,7 +220,7 @@ let mapStyle = [
 
 
 
-//function initMap() {
+window.initMap = function()  {
   map = new google.maps.Map(d3.select("#map").node(), {
     center: { lat: 44.6487027, lng: -63.6008893 },
     zoom: 14,
@@ -259,7 +259,7 @@ let mapStyle = [
 
   let transitLayer = new google.maps.TransitLayer();
   transitLayer.setMap(map);
-//};
+};
 
 
 
