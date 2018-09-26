@@ -392,7 +392,7 @@ function drawBuses() {
         //})
 
         function updateBuses() {
-          d3.json("http://thisismyfinalproject.website:9000/get", function(
+          d3.json("http://ec2-54-68-7-92.us-west-2.compute.amazonaws.com:9000/get", function(
             error,
             data
           ) {
